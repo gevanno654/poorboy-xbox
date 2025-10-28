@@ -78,13 +78,6 @@ const AppContent: React.FC = () => {
     localStorage.removeItem('userToken');
   };
 
-  const handleAdminLogout = () => {
-    setDirectToAdmin(false);
-    setShowAdmin(false);
-    localStorage.removeItem('adminAuthenticated');
-    // Redirect ke halaman utama setelah logout admin
-    window.history.pushState({}, '', '/');
-  };
 
   // Fungsi untuk keluar dari admin panel ke LoginForm
   const handleExitToLogin = () => {
@@ -100,9 +93,6 @@ const AppContent: React.FC = () => {
     navigate('/');
   };
 
-  const toggleAdmin = () => {
-    setShowAdmin(!showAdmin);
-  };
 
   return (
     <div className="min-h-screen bg-gray-50">
