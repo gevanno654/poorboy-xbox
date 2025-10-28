@@ -1,0 +1,754 @@
+/* Admin Login Styles */
+.admin-login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+}
+
+.admin-login-form {
+  background: white;
+  border-radius: 20px;
+  padding: 3rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+}
+
+.admin-login-form h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.admin-login-form .input-group {
+  margin-bottom: 1.5rem;
+}
+
+.admin-login-form .input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #495057;
+}
+
+.admin-login-btn {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  margin-bottom: 1.5rem;
+}
+
+.admin-login-btn:hover {
+  transform: translateY(-2px);
+}
+
+.admin-login-info {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.admin-login-info p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Admin Panel Styles */
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.admin-logout-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.admin-logout-btn:hover {
+  background: #c82333;
+  transform: translateY(-2px);
+}
+
+.admin-section {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.admin-section h3 {
+  color: #333;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.admin-section h4 {
+  color: #495057;
+  margin-bottom: 1rem;
+}
+
+/* Token Management Styles */
+.token-creation {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+}
+
+.token-value {
+  font-size: 1.5rem;
+  color: #28a745;
+  display: block;
+  margin: 0.5rem 0;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 2px;
+}
+
+/* Account Management Styles */
+.account-management {
+  max-width: 500px;
+}
+
+.current-account-info {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #e7f3ff;
+  border-radius: 10px;
+  border-left: 4px solid #007bff;
+}
+
+.info-preview p {
+  margin: 0.5rem 0;
+  color: #333;
+}
+
+/* Table Styles */
+.tokens-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.tokens-table th,
+.tokens-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.tokens-table th {
+  background: #f8f9fa;
+  font-weight: 600;
+  color: #495057;
+}
+
+.tokens-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Status Styles */
+.status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.status.active {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status.expired {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .admin-header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .admin-section {
+    padding: 1rem;
+  }
+  
+  .tokens-table {
+    font-size: 0.8rem;
+  }
+  
+  .tokens-table th,
+  .tokens-table td {
+    padding: 0.5rem;
+  }
+}
+
+/* User Account Info Styles */
+.email-display {
+  font-weight: 600;
+  color: #007bff;
+}
+
+.password-display {
+  font-family: 'Courier New', monospace;
+  letter-spacing: 3px;
+  font-weight: 600;
+  color: #28a745;
+}
+
+.no-data {
+  text-align: center;
+  padding: 2rem;
+  color: #6c757d;
+}
+
+.no-data p {
+  margin: 0.5rem 0;
+}
+
+.info-note {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 8px;
+  color: #856404;
+  text-align: center;
+}
+
+.info-note p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* Real-time Account Info Styles */
+.loading-container {
+  text-align: center;
+  padding: 3rem;
+}
+
+.loading-spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #667eea;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 2s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Token Status Styles */
+.token-status-card {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border-left: 4px solid #28a745;
+}
+
+.status-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.status-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+.status-indicator.active {
+  background: #28a745;
+}
+
+.status-indicator.expired {
+  background: #dc3545;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.countdown {
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.countdown-label {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.countdown-timer {
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: 'Courier New', monospace;
+  color: #dc3545;
+  background: #fff;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 2px solid #e9ecef;
+}
+
+.status-note {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 5px;
+  padding: 0.75rem;
+  margin-top: 1rem;
+}
+
+.status-note p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #856404;
+  text-align: center;
+}
+
+/* Update Time Styles */
+.update-time {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.warning-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* Real-time Indicator */
+.realtime-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: #d4edda;
+  color: #155724;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  margin-left: 0.5rem;
+  animation: blink 2s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.3; }
+}
+
+/* Info Note Update */
+.info-note {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #e7f3ff;
+  border: 1px solid #b3d9ff;
+  border-radius: 8px;
+  color: #004085;
+}
+
+.info-note p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+/* Login Info Update */
+.login-info p {
+  margin: 0.5rem 0;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* Improved Loading Styles */
+.loading-subtext {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+/* Token Status Improvements */
+.token-status-card {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border-left: 4px solid #28a745;
+  transition: all 0.3s ease;
+}
+
+.token-status-card.expired {
+  border-left-color: #dc3545;
+  background: #f8d7da;
+}
+
+.status-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.status-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+.status-indicator.active {
+  background: #28a745;
+}
+
+.status-indicator.expired {
+  background: #dc3545;
+  animation: none;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.countdown {
+  text-align: center;
+  margin: 1rem 0;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.countdown-label {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.countdown-timer {
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: 'Courier New', monospace;
+  color: #dc3545;
+  background: #fff;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 2px solid #e9ecef;
+}
+
+.status-note p {
+  margin: 0.25rem 0;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.status-note p:first-child {
+  color: #155724;
+  font-weight: 600;
+}
+
+/* Admin Panel Real-time Styles */
+.admin-stats {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.stat-item {
+  background: #f8f9fa;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.tokens-lists {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.token-row.active {
+  background: #f8fff9;
+}
+
+.token-row.expired {
+  background: #fff8f8;
+  opacity: 0.7;
+}
+
+.token-code {
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.time-remaining {
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  color: #dc3545;
+  font-size: 0.9rem;
+}
+
+.no-tokens {
+  text-align: center;
+  padding: 2rem;
+  color: #6c757d;
+  font-style: italic;
+}
+
+/* Real-time Indicator */
+.realtime-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: #28a745;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  margin-left: 0.5rem;
+  animation: blink 2s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.3; }
+}
+
+.realtime-note {
+  font-size: 0.8rem;
+  color: #28a745;
+  font-style: italic;
+  margin-top: 0.5rem;
+  padding: 0.25rem;
+  background: #f8fff9;
+  border-radius: 4px;
+  text-align: center;
+}
+
+/* Table Improvements */
+.tokens-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.tokens-table th,
+.tokens-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.tokens-table th {
+  background: #f8f9fa;
+  font-weight: 600;
+  color: #495057;
+  position: sticky;
+  top: 0;
+}
+
+.tokens-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Status Styles Update */
+.status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-block;
+  min-width: 80px;
+  text-align: center;
+}
+
+.status.active {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.status.expired {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* No Data Styles */
+.no-data {
+  text-align: center;
+  padding: 1.5rem;
+  color: #6c757d;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px dashed #dee2e6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .admin-stats {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .tokens-lists {
+    gap: 1rem;
+  }
+  
+  .tokens-table {
+    font-size: 0.8rem;
+  }
+  
+  .tokens-table th,
+  .tokens-table td {
+    padding: 0.5rem;
+  }
+  
+  .time-remaining {
+    font-size: 0.8rem;
+  }
+}
+
+/* Last Update Information Styles */
+.last-update-info {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  border-left: 4px solid #007bff;
+  transition: all 0.3s ease;
+}
+
+.last-update-info.loading {
+  border-left-color: #6c757d;
+  background: #e9ecef;
+}
+
+.last-update-info.no-data {
+  border-left-color: #ffc107;
+  background: #fff3cd;
+}
+
+.last-update-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.last-update-header strong {
+  color: #495057;
+  font-size: 0.9rem;
+}
+
+.update-icon {
+  font-size: 1.1rem;
+}
+
+.update-time {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #28a745;
+  margin: 0.5rem 0;
+  text-align: center;
+}
+
+.last-update-info.no-data .update-time {
+  color: #856404;
+}
+
+.update-datetime {
+  font-size: 0.8rem;
+  color: #6c757d;
+  text-align: center;
+  margin: 0;
+  font-style: italic;
+}
+
+/* Color variations based on recency */
+.last-update-info[style*="#28a745"] {
+  background: #f8fff9;
+  border-left-color: #28a745;
+}
+
+.last-update-info[style*="#ffc107"] {
+  background: #fffef0;
+  border-left-color: #ffc107;
+}
+
+.last-update-info[style*="#dc3545"] {
+  background: #fff5f5;
+  border-left-color: #dc3545;
+}
+
+.last-update-info[style*="#dc3545"] .update-time {
+  color: #dc3545;
+}
+
+/* Login Form Adjustments */
+.login-form {
+  position: relative;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .last-update-info {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .update-time {
+    font-size: 1rem;
+  }
+  
+  .last-update-header {
+    flex-direction: column;
+    gap: 0.25rem;
+    text-align: center;
+  }
+  
+  .last-update-header strong {
+    font-size: 0.85rem;
+  }
+}
