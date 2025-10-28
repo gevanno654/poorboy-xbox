@@ -101,8 +101,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
     const now = new Date();
     const diffInHours = (now.getTime() - date.getTime()) / (1000 * 60 * 60);
     
-    if (diffInHours < 1) return 'border-l-green-500 bg-green-50';
-    if (diffInHours < 24) return 'border-l-yellow-500 bg-yellow-50';
+    if (diffInHours < 1) return 'bg-black/15';
+    if (diffInHours < 24) return 'bg-black/15';
   };
 
   return (
