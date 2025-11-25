@@ -26,6 +26,15 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onExitToLogin }) => {
   const ADMIN_USERNAME = 'poorboygaming';
   const ADMIN_PASSWORD = 'Lavignator10!';
 
+  // Fungsi untuk mendapatkan waktu WIB (UTC+7)
+  const getWIBTime = (): Date => {
+    const now = new Date();
+    // WIB adalah UTC+7
+    const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+    const wibOffset = 7 * 60 * 60000; // 7 jam dalam milidetik
+    return new Date(utc + wibOffset);
+  };
+
   // Fungsi untuk copy token
   const handleCopyToken = async () => {
     try {
@@ -171,18 +180,21 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onExitToLogin }) => {
 
   const handleSaveAccountInfo = async () => {
     try {
+      // Gunakan waktu WIB untuk lastUpdate
+      const wibTime = getWIBTime();
+      
       if (accountInfo) {
         const docRef = doc(db, 'accountInfo', accountInfo.id);
         await updateDoc(docRef, {
           email: editForm.email,
           password: editForm.password,
-          lastUpdate: new Date()
+          lastUpdate: wibTime
         });
       } else {
         await addDoc(collection(db, 'accountInfo'), {
           email: editForm.email,
           password: editForm.password,
-          lastUpdate: new Date()
+          lastUpdate: wibTime
         });
       }
       
@@ -211,14 +223,15 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onExitToLogin }) => {
   };
 
   const formatTime = (date: Date) => {
-    return date.toLocaleTimeString('id-ID');
+    return date.toLocaleTimeString('id-ID', { timeZone: 'Asia/Jakarta' });
   };
 
   const formatDate = (date: Date) => {
     return date.toLocaleDateString('id-ID', {
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
+      day: 'numeric',
+      timeZone: 'Asia/Jakarta'
     });
   };
 
@@ -516,7 +529,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onExitToLogin }) => {
             <div className="mt-6 p-4 bg-black/20 border border-white/40 rounded-xl">
               <p className="text-white text-center text-sm">Terakhir Update Data Akun:</p>
               <p className="text-white text-center font-semibold mt-1">
-                {accountInfo.lastUpdate.toLocaleString('id-ID')}
+                {accountInfo.lastUpdate.toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })}
               </p>
             </div>
           )}
