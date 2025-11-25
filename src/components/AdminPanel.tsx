@@ -4,7 +4,7 @@ import { collection, onSnapshot, query, doc, updateDoc, addDoc } from 'firebase/
 import { db } from '../firebase/config';
 import type { AccountInfoData } from '../types';
 import Swal from 'sweetalert2';
-import { Copy } from 'lucide-react';
+import { Copy, Search } from 'lucide-react';
 
 interface AdminPanelProps {
   onExitToLogin: () => void;
@@ -19,6 +19,8 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onExitToLogin }) => {
   const [accountInfo, setAccountInfo] = useState<AccountInfoData | null>(null);
   const [editForm, setEditForm] = useState({ email: '', password: '' });
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [customTokenInput, setCustomTokenInput] = useState(''); // State untuk input token manual
+  const [searchTerm, setSearchTerm] = useState(''); // State untuk search
 
   // Admin credentials
   const ADMIN_USERNAME = 'poorboygaming';
@@ -132,10 +134,26 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onExitToLogin }) => {
     window.history.pushState({}, '', '/');
   };
 
+  // Fungsi untuk membuat token dengan input manual (nomor pesanan/HP)
   const handleCreateToken = async () => {
+    if (!customTokenInput.trim()) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Peringatan!',
+        text: 'Harap masukkan nomor pesanan atau nomor HP pelanggan',
+        timer: 3000,
+        background: '#1e293b',
+        color: 'white',
+        iconColor: '#f59e0b'
+      });
+      return;
+    }
+
     try {
-      const token = await createToken();
+      // Panggil fungsi createToken dengan parameter token manual
+      const token = await createToken(customTokenInput);
       setNewToken(token);
+      setCustomTokenInput(''); // Reset input setelah berhasil
       setTimeout(() => setNewToken(''), 20000);
     } catch (error) {
       console.error('Failed to create token');
@@ -196,6 +214,14 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onExitToLogin }) => {
     return date.toLocaleTimeString('id-ID');
   };
 
+  const formatDate = (date: Date) => {
+    return date.toLocaleDateString('id-ID', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
   const isTokenExpired = (expiresAt: Date) => {
     return currentTime > expiresAt;
   };
@@ -203,12 +229,14 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onExitToLogin }) => {
   const getTimeRemaining = (expiresAt: Date) => {
     const timeRemaining = expiresAt.getTime() - currentTime.getTime();
     
-    if (timeRemaining <= 0) return { minutes: 0, seconds: 0 };
+    if (timeRemaining <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
     
-    const minutes = Math.floor(timeRemaining / (1000 * 60));
+    const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
     
-    return { minutes, seconds };
+    return { days, hours, minutes, seconds };
   };
 
   useEffect(() => {
@@ -217,6 +245,13 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onExitToLogin }) => {
       setIsAdminAuthenticated(true);
     }
   }, []);
+
+  // Filter tokens aktif berdasarkan search term
+  const activeTokens = tokens.filter(token => !isTokenExpired(token.expiresAt));
+  
+  const filteredTokens = activeTokens.filter(token =>
+    token.token.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   if (!isAdminAuthenticated) {
     return (
@@ -285,8 +320,6 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onExitToLogin }) => {
     );
   }
 
-  const activeTokens = tokens.filter(token => !isTokenExpired(token.expiresAt));
-
   return (
     <div className="min-h-screen bg-linear-to-br from-slate-900 via-purple-900 to-slate-900 flex flex-col items-center pb-8">
       {/* Header */}
@@ -313,9 +346,26 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onExitToLogin }) => {
           <h3 className="text-xl font-semibold text-white mb-2 ml-4">Manajemen Token</h3>
           
           <div className="text-center bg-black/20 border border-white/40 rounded-xl p-6 mb-8">
+            {/* Input untuk token manual */}
+            <div className="mb-4">
+              <label className="block text-white font-semibold mb-2 text-left">
+                Masukkan Nomor Pesanan / HP Pelanggan:
+              </label>
+              <input
+                type="text"
+                value={customTokenInput}
+                onChange={(e) => setCustomTokenInput(e.target.value)}
+                placeholder="Contoh: ORD12345, 08123456789, PBG-2024-001"
+                className="w-full px-4 py-3 border border-white/40 rounded-xl text-white bg-black/20 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
+              />
+              <p className="text-white/70 text-sm mt-1 text-left">
+                Bisa berupa nomor pesanan, nomor HP, atau kode unik lainnya (boleh huruf dan angka)
+              </p>
+            </div>
+            
             <button 
               onClick={handleCreateToken} 
-              disabled={isLoading}
+              disabled={isLoading || !customTokenInput.trim()}
               className="bg-linear-to-tr from-green-700 via-green-600 to-green-500 text-white px-6 py-3 rounded-full font-semibold hover:from-green-800 hover:via-green-700 hover:to-green-600 transition-colors duration-300 disabled:opacity-50 disabled:transform-none"
             >
               {isLoading ? 'Membuat Token...' : 'Buat Token Baru'}
@@ -333,20 +383,51 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onExitToLogin }) => {
                     <Copy size={16} />
                   </button>
                 </div>
-                <p className="text-white">Token akan kadaluarsa dalam 10 menit</p>
+                <p className="text-white">Token akan kadaluarsa dalam 1 tahun</p>
               </div>
             )}
           </div>
 
           <div className="space-y-8">
-            {/* Active Tokens */}
+            {/* Active Tokens dengan Search Bar */}
             <div>
-              <h4 className="text-lg font-semibold text-white mb-2 flex items-center ml-4">
-                🟢 Token Aktif ({activeTokens.length})
-              </h4>
-              {activeTokens.length === 0 ? (
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-4">
+                <h4 className="text-lg font-semibold text-white flex items-center ml-4">
+                  🟢 Token Aktif ({activeTokens.length})
+                </h4>
+                
+                {/* Search Bar */}
+                <div className="relative w-full sm:w-64">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Search size={18} className="text-white/70" />
+                  </div>
+                  <input
+                    type="text"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    placeholder="Cari token..."
+                    className="w-full pl-10 pr-4 py-2 bg-black/20 border border-white/40 rounded-full text-white placeholder-white/70 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                  />
+                  {searchTerm && (
+                    <button
+                      onClick={() => setSearchTerm('')}
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-white/70 hover:text-white"
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {filteredTokens.length === 0 ? (
                 <div className="text-center py-8 bg-black/20 rounded-lg">
-                  <p className="text-gray-500 italic">Tidak ada token aktif</p>
+                  {searchTerm ? (
+                    <p className="text-gray-500 italic">
+                      Tidak ada token aktif yang cocok dengan "{searchTerm}"
+                    </p>
+                  ) : (
+                    <p className="text-gray-500 italic">Tidak ada token aktif</p>
+                  )}
                 </div>
               ) : (
                 <div className="overflow-x-auto rounded-2xl border border-white/30">
@@ -361,14 +442,22 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onExitToLogin }) => {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-white/30">
-                      {activeTokens.map((token) => {
+                      {filteredTokens.map((token) => {
                         const timeRemaining = getTimeRemaining(token.expiresAt);
                         return (
                           <tr key={token.id} className="bg-black/20 hover:bg-black/10 transition-colors">
                             <td className="px-6 py-4 font-mono font-bold text-white text-center">{token.token}</td>
-                            <td className="px-6 py-4 text-white text-center">{formatTime(token.createdAt)}</td>
-                            <td className="px-6 py-4 text-white text-center">{formatTime(token.expiresAt)}</td>
-                            <td className="px-6 py-4 font-mono font-bold text-red-400 text-center">
+                            <td className="px-6 py-4 text-white text-center">
+                              <div>{formatDate(token.createdAt)}</div>
+                              <div className="text-sm">{formatTime(token.createdAt)}</div>
+                            </td>
+                            <td className="px-6 py-4 text-white text-center">
+                              <div>{formatDate(token.expiresAt)}</div>
+                              <div className="text-sm">{formatTime(token.expiresAt)}</div>
+                            </td>
+                            <td className="px-6 py-4 font-mono font-bold text-green-400 text-center">
+                              {timeRemaining.days > 0 && `${timeRemaining.days} hari `}
+                              {timeRemaining.hours.toString().padStart(2, '0')}:
                               {timeRemaining.minutes.toString().padStart(2, '0')}:
                               {timeRemaining.seconds.toString().padStart(2, '0')}
                             </td>

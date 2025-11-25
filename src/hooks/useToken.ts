@@ -49,21 +49,26 @@ export const useToken = () => {
     }
   }, []);
 
-  const createToken = async (): Promise<string> => {
+  // Fungsi untuk membuat token dengan input manual dan masa berlaku 1 tahun
+  const createToken = async (customToken?: string): Promise<string> => {
     setIsLoading(true);
     try {
-      const newToken = Math.random().toString(36).substring(2, 10).toUpperCase();
-      const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
+      // Jika tidak ada customToken, gunakan token random (untuk kompatibilitas)
+      const tokenValue = customToken || Math.random().toString(36).substring(2, 10).toUpperCase();
+      
+      // Set masa berlaku 1 tahun dari sekarang
+      const expiresAt = new Date();
+      expiresAt.setFullYear(expiresAt.getFullYear() + 1);
 
       const docRef = await addDoc(collection(db, 'tokens'), {
-        token: newToken,
+        token: tokenValue,
         createdAt: serverTimestamp(),
         expiresAt: Timestamp.fromDate(expiresAt),
         isActive: true
       });
 
       console.log('Token created with ID:', docRef.id);
-      return newToken;
+      return tokenValue;
     } catch (error) {
       console.error('Error creating token:', error);
       throw error;
